@@ -64,9 +64,9 @@ O projeto inclui os 5 exemplos oficiais do guião e testes adicionais de robuste
 
 António Luís Braga Mendes A84675
 
-[Nome 2] - [Número]
+Luís Filipe Araújo Ferreira - A98286
 
-[Nome 3] - [Número]
+Salomé Pereira Faria - A108487
 
 Projeto realizado para a Unidade Curricular de Processamento de Linguagens - 2026.
 

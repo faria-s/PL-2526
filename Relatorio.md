@@ -1,7 +1,8 @@
 # Relatório Técnico: Compilador Fortran 77
 
 **Unidade Curricular:** Processamento de Linguagens  
-**Autores:** António Luís Braga Mendes - A84675
+**Autores:** António Luís Braga Mendes (A84675), Luís Filipe Araújo Ferreira (A98286), Salomé Pereira Faria (A108487)
+
 
 ---
 
