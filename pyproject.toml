@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pl-2526"
+authors = [
+    { name = "António Luís Braga Mendes", email = "a84675@alunos.uminho.pt" },
+    { name = "Luís Filipe Araújo Ferreira", email = "a98286@alunos.uminho.pt" },
+    { name = "Salomé Pereira Faria", email = "a108487@alunos.uminho.pt" }
+]
+
+description = "package description"
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests > 2.26.0",
+    "ply",
+    "pylint",
+    "mypy",
+]

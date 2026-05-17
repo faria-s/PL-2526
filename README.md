@@ -23,13 +23,20 @@ O sistema realiza a tradução de código Fortran para instruções da **EWVM (E
 
 <div style="page-break-after: always;"></div>
 
-### Pré-requisitos
+# Configuração
 
+Comece por clonar este repositório e criar um ambiente virtual em Python:
+
+```
+$ python -m venv .venv
+```
+
+Para executar o projeto, comece por ativar o ambiente virtual e instalar as dependências:
 - Python 3.10 ou superior.
-- Biblioteca PLY instalada:
 
-```bash
-pip install ply
+```
+$ source .venv/bin/activate
+$ pip install .
 ```
 
 Para compilar um ficheiro Fortran, execute o `main.py` passando o caminho do ficheiro como argumento:
@@ -39,6 +46,16 @@ python main.py testes/ex3_primo.f77
 ```
 
 Nota: O código gerado (.vm) será guardado automaticamente na pasta testes/../.
+
+Para sair do ambiente virtual:
+
+```
+$ deactivate
+```
+
+```bash
+pip install ply
+```
 
 ### Testes
 

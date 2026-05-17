@@ -128,6 +128,16 @@ Abaixo, apresentamos a prova de execução do **Exemplo 2 (Fatorial de um númer
 
 ![Fatorial](png/vm_ex2.png)
 
+Abaixo, apresentamos a prova de execução Exemplo 5 (Conversor de Bases), mais complexo, que utiliza subprogramas e passagem de parâmetros, demonstrando o sucesso total da geração de código:
+
+![Alocação e Input do Valor 25](png/6_4_1.png)
+
+
+![Execução e Primeiros Resultados](png/6_4_2.png)
+
+
+![Final da Execução com Todas as Bases](png/6_4_3.png)
+
 ---
 
 <div style="page-break-after: always;"></div>
