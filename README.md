@@ -42,7 +42,7 @@ $ pip install .
 Para compilar um ficheiro Fortran, execute o `main.py` passando o caminho do ficheiro como argumento:
 
 ```bash
-python main.py testes/ex3_primo.f77
+python src/main.py testes/exemplos/ex1_hello.f77
 ```
 
 Nota: O código gerado (.vm) será guardado automaticamente na pasta testes/../.

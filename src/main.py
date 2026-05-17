@@ -37,22 +37,19 @@ def run_compiler():
                 conteudo = f.read()
             print(f"--- A iniciar o Compilador para: {filename} ---\n")
 
-            # --- ETAPA 1 e 2: Análise Léxica, Sintática e AST ---
             ast = parser.parse(conteudo)
 
             if ast:
-                print("🌳 Árvore Sintática Abstrata (Original):")
+                print("Árvore Sintática Abstrata (Original):")
                 print_ast(ast)
                 print("\n" + "=" * 50 + "\n")
 
-                # --- ETAPA 3: Análise Semântica ---
                 analisador = SemanticAnalyzer()
 
-                # A CORREÇÃO MAGNÍFICA ESTÁ AQUI: Desempacotar a tupla!
                 erros, avisos = analisador.analyze(ast)
 
                 if avisos:
-                    print("⚠️ Avisos Semânticos:")
+                    print("Avisos Semânticos:")
                     for aviso in avisos:
                         print(f"  - {aviso}")
 
@@ -61,20 +58,18 @@ def run_compiler():
                     for erro in erros:
                         print(f"  - {erro}")
                 else:
-                    print("\n✅ Análise Semântica BEM SUCEDIDA!")
+                    print("\nAnálise Semântica Concluída.")
 
-                    # --- ETAPA 4: Otimização (Valorização) ---
                     print(
                         "\n--- A Otimizar a Árvore (Constant Folding & Dead Code) ---"
                     )
                     otimizador = Optimizer()
                     ast = otimizador.optimize(ast)
 
-                    print("🌳 Árvore Sintática (Otimizada):")
+                    print("Árvore Sintática (Otimizada):")
                     print_ast(ast)
-                    print("\n✨ Otimização concluída.")
+                    print("\nOtimização concluída.")
 
-                    # --- ETAPA 5: Geração de Código VM ---
                     compilador_vm = Compiler(analisador.symbol_table)
                     codigo_gerado = compilador_vm.compile(ast)
 
@@ -93,12 +88,9 @@ def run_compiler():
                         for linha in codigo_gerado:
                             f.write(linha + "\n")
 
-                    print(f"\n💾 Código guardado com sucesso em: {out_file}")
-                    print(
-                        f"🚀 Abre a Máquina Virtual EWVM, cola o código e clica 'Run'!"
-                    )
+                    print(f"\nCódigo guardado em: {out_file}")
             else:
-                print("⚠️ O parser não devolveu nenhuma estrutura.")
+                print("O parser não devolveu nenhuma estrutura.")
 
         except FileNotFoundError:
             print(f"Erro: O ficheiro {filename} não foi encontrado.")

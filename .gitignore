@@ -19,6 +19,8 @@ src/paser.out/
 src/parsetab.py
 Scripts/
 Lib/
+.vm
+
 
 # mypy
 .mypy_cache/

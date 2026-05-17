@@ -1,23 +1,21 @@
-# semantic.py
 from ast_nodes import *
 
 
 class SemanticAnalyzer:
     def __init__(self):
         self.symbol_table = {}
-        self.arrays = set()  # Guarda nomes de Arrays
-        self.subroutines = set()  # Guarda nomes de funções
+        self.arrays = set()
+        self.subroutines = set()
         self.errors = []
-        self.warnings = []  # Guarda os avisos de inicialização
-        self.initialized_vars = set()  # Variáveis que já têm valor
+        self.warnings = []
+        self.initialized_vars = set()
 
     def _extract_name(self, name):
-        # Limpa "[5]" ou "(I)" para ficarmos só com o nome base
         return str(name).split("[")[0].split("(")[0].strip().upper()
 
     def analyze(self, ast):
         self.visit(ast)
-        return self.errors, self.warnings  # Modificado para devolver avisos
+        return self.errors, self.warnings
 
     def visit(self, node):
         if node is None:
@@ -36,9 +34,7 @@ class SemanticAnalyzer:
                 elif isinstance(value, Node):
                     self.visit(value)
 
-    # --- 1. PROGRAMA PRINCIPAL ---
     def visit_ProgramNode(self, node):
-        # 1. Regista os nomes das Subrotinas primeiro!
         for sub in getattr(node, "subprograms", []):
             self.subroutines.add(self._extract_name(sub.name))
         for decl in node.decls:
@@ -48,7 +44,6 @@ class SemanticAnalyzer:
         for sub in getattr(node, "subprograms", []):
             self.visit(sub)
 
-    # --- 2. DECLARAÇÕES ---
     def visit_VarDeclNode(self, node):
         base_name = self._extract_name(node.name)
         if base_name in self.symbol_table:
@@ -57,7 +52,6 @@ class SemanticAnalyzer:
             )
         else:
             self.symbol_table[base_name] = node.type
-            # Se a string original tiver parenteses/parêntesis retos, é array!
             if "[" in str(node.name) or "(" in str(node.name):
                 self.arrays.add(base_name)
 
@@ -71,19 +65,17 @@ class SemanticAnalyzer:
                 self.symbol_table[base_name] = "REAL"
         return self.symbol_table[base_name]
 
-    # --- 3. ATRIBUIÇÕES E VARIÁVEIS ---
     def visit_VarNode(self, node):
         base_name = self._extract_name(node.name)
-        # DETEÇÃO DE VARIÁVEL VAZIA!
         if base_name not in self.initialized_vars and base_name not in self.arrays:
             self.warnings.append(
-                f"⚠️ Aviso: A variável '{base_name}' está a ser usada sem ter sido inicializada."
+                f"Aviso: A variável '{base_name}' está a ser usada sem ter sido inicializada."
             )
         return self.get_implicit_type(base_name)
 
     def visit_AssignNode(self, node):
         base_name = self._extract_name(node.var)
-        self.initialized_vars.add(base_name)  # Marca como inicializada
+        self.initialized_vars.add(base_name)
 
         var_type = self.get_implicit_type(base_name)
         expr_type = self.visit(node.expr)
@@ -102,7 +94,6 @@ class SemanticAnalyzer:
         base_name = self._extract_name(node.name)
         self.initialized_vars.add(base_name)
 
-        # O POLÍCIA VOLTOU!
         if base_name not in self.arrays:
             self.errors.append(
                 f"❌ Erro Semântico: Tentativa de indexar '{base_name}', que é uma variável escalar de tamanho 1."
@@ -115,7 +106,6 @@ class SemanticAnalyzer:
         base_name = self._extract_name(node.name)
 
         if base_name != "MOD" and base_name not in self.subroutines:
-            # O POLÍCIA VOLTOU!
             if base_name not in self.arrays:
                 self.errors.append(
                     f"❌ Erro Semântico: Tentativa de indexar '{base_name}', que é uma variável escalar."
@@ -132,20 +122,17 @@ class SemanticAnalyzer:
 
     def visit_ReadNode(self, node):
         base_name = self._extract_name(getattr(node, "var", getattr(node, "name", "")))
-        self.initialized_vars.add(base_name)  # Marca como inicializada
+        self.initialized_vars.add(base_name)
         self.get_implicit_type(base_name)
 
     def visit_DoNode(self, node):
-        # O ciclo DO dá o valor inicial à variável de controlo!
         base_name = self._extract_name(node.var)
         self.initialized_vars.add(base_name)
 
-        # Visita o valor de início e de fim para garantir que não há erros neles
         self.visit(node.start)
         self.visit(node.end)
 
     def visit_SubroutineNode(self, node):
-        # Os parâmetros da função já vêm preenchidos "de fora", logo marcamos como inicializados
         for p in node.params:
             self.initialized_vars.add(self._extract_name(p))
         for decl in node.decls:
@@ -153,7 +140,6 @@ class SemanticAnalyzer:
         for stmt in node.body:
             self.visit(stmt)
 
-    # ... (Podes manter as tuas visit_LiteralNode, visit_BinOpNode e visit_IfNode iguaizinhas ao que já tinhas) ...
     def visit_LiteralNode(self, node):
         if isinstance(node.value, bool):
             return "LOGICAL"
